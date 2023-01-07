@@ -1,43 +1,35 @@
-module mux1(s,a,b,f);
-  input s,a,b;
-  output f;
-  wire w1,w2,w3;
-  
-  and(w2,a,w1);
-  not(w1,s);
-  and(w3,b,s);
-  or(f,w2,w3);
-  
+module Mux4to1_1b(A0,A1,A2,A3,S1,S0,F);
+  input A0,A1,A2,A3,S1,S0;
+  output F;
+  wire w0,w1,w2,w3,w4,w5;
+  not (W0,S0);
+  not (W1,S1);
+  and (W2,W0,W1,A0);
+  and (W3,W1,S0,A1);
+  and (W4,S1,W0,A2);
+  and (W5,S1,S0,A3);
+  or (F,W2,W3,W4,W5);
 endmodule
 
-module mux2(A,B,C,D,S1,S0,F);
- input A,B,C,D,S0,S1;
- output F;
-  mux1 m0(.a(A),.b(B),.s(S0),.f(w4));
-  mux1 m1(.a(C),.b(D),.s(S0),.f(w5));
-  mux1 m2(.a(w4),.b(w5),.s(S1),.f(F));
-endmodule
-
-module test_bench_second();
-  reg _A,_B,_C,_D,_S1,_S0;
-  wire _F;
-  mux2 m3(.A(_A), .B(_B), .C(_C), .D(_D), .S0(_S0), .S1(_S1), .F(_F));
+module test_mux4to1_1b;
+  reg _s0,_s1, _a, _b , _c, _d;
+  wire _f;
+  mux4to1_1b mux(.s1(_s1), .s0(_s0),.a(_a),.b(_b),.c(_c),.d(_d),.f(_f));
   initial begin
-   _S0=1'b0; _S1=1'b0; _A=1'b1; _B=1'b0; _C=1'b0; _D=1'b0;
-   #20
-   _S0=1'b1; _S1=1'b0; _A=1'b0; _B=1'b1; _C=1'b0; _D=1'b0;
-   #20
-   _S0=1'b0; _S1=1'b1; _A=1'b0; _B=1'b0; _C=1'b1; _D=1'b0;
-   #20
-   _S0=1'b1; _S1=1'b1; _A=1'b0; _B=1'b0; _C=1'b0; _D=1'b1;
-   #20
-   _S0=1'b0; _S1=1'b0; _A=1'b0; _B=1'b1; _C=1'b1; _D=1'b1;
-   #20
-   _S0=1'b1; _S1=1'b0; _A=1'b1; _B=1'b0; _C=1'b1; _D=1'b1;
-   #20
-   _S0=1'b0; _S1=1'b1; _A=1'b1; _B=1'b1; _C=1'b0; _D=1'b1;
-   #20
-   _S0=1'b1; _S1=1'b1; _A=1'b1; _B=1'b1; _C=1'b1; _D=1'b0;
-   
-end
+    _s1=1'b0; _s0=1'b0; _a=1'b1;  _b=1'b0; _c=1'b0; _d=1'b0;
+    #10
+     _s1=1'b0; _s0=1'b0; _a=1'b0;  _b=1'b1; _c=1'b1; _d=1'b1;
+    #10
+      _s1=1'b0; _s0=1'b1; _a=1'b0;  _b=1'b1; _c=1'b0; _d=1'b0;
+    #10
+     _s1=1'b0; _s0=1'b1; _a=1'b1;  _b=1'b0; _c=1'b1; _d=1'b1;
+    #10
+      _s1=1'b1; _s0=1'b0; _a=1'b0;  _b=1'b0; _c=1'b1; _d=1'b0;
+    #10
+     _s1=1'b1; _s0=1'b0; _a=1'b1;  _b=1'b1; _c=1'b0; _d=1'b1;
+    #10
+      _s1=1'b1; _s0=1'b1; _a=1'b0;  _b=1'b0; _c=1'b0; _d=1'b1;
+    #10
+     _s1=1'b1; _s0=1'b1; _a=1'b1;  _b=1'b1; _c=1'b1; _d=1'b0;
+  end
 endmodule
